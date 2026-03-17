@@ -1,0 +1,10 @@
+﻿namespace VideoGameCharactersAPI.Dtos
+{
+    public class CharacterResponseDto
+    {
+        public string Name { get; set; } = string.Empty;
+        public string Game { get; set; } = string.Empty;
+        public string Role { get; set; } = string.Empty;
+
+    }
+}
