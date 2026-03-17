@@ -57,9 +57,19 @@ namespace VideoGameCharactersAPI.Services
             return result;
         }
 
-        public Task<bool> UpdateCharacterAsync(int id, UpdateCharacterRequest character)
+        public async Task<bool> UpdateCharacterAsync(int id, UpdateCharacterRequest character)
         {
-            throw new NotImplementedException();
+            var existingCharacter = await _context.Characters.FindAsync(id);
+            if (existingCharacter is null)
+                return false;
+
+            existingCharacter.Name = character.Name;
+            existingCharacter.Game = character.Game;
+            existingCharacter.Role = character.Role;
+
+            await _context.SaveChangesAsync();
+
+            return true;
         }
     }
 }
