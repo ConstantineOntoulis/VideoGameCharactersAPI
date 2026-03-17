@@ -7,12 +7,27 @@ namespace VideoGameCharactersAPI.Services
 {
     public class VideoGameService(CharacterDbContext _context) : IVideoGameCharacterService
     {
-        public Task<CharacterResponseDto> AddCharacterAsync(CreateCharacterRequest character)
+        public async Task<CharacterResponseDto> AddCharacterAsync(CreateCharacterRequest character)
         {
-            throw new NotImplementedException();
+            var newCharacter = new Character
+            {
+                Name = character.Name,
+                Game = character.Game,
+                Role = character.Role
+            };
+            _context.Characters.Add(newCharacter);
+            await _context.SaveChangesAsync();
+
+            return new CharacterResponseDto
+            {
+                Id = newCharacter.Id,
+                Name = newCharacter.Name,
+                Game = newCharacter.Game,
+                Role = newCharacter.Role
+            };
         }
 
-        public Task<bool> DeleteCharacterAsynce(int id)
+        public Task<bool> DeleteCharacterAsync(int id)
         {
             throw new NotImplementedException();
         }
