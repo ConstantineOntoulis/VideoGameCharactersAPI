@@ -27,9 +27,16 @@ namespace VideoGameCharactersAPI.Services
             };
         }
 
-        public Task<bool> DeleteCharacterAsync(int id)
+        public async Task<bool> DeleteCharacterAsync(int id)
         {
-            throw new NotImplementedException();
+            var characterToDelete = await _context.Characters.FindAsync(id);
+            if (characterToDelete is null)
+                return false;
+
+            _context.Characters.Remove(characterToDelete);
+            await _context.SaveChangesAsync();
+
+            return true;
         }
 
         public async Task<List<CharacterResponseDto>> GetAllCharactersAsync()
