@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using VideoGameCharactersAPI.Models;
 using VideoGameCharactersAPI.Services;
+using VideoGameCharactersAPI.Dtos;
 
 namespace VideoGameCharactersAPI.Controllers
 {
@@ -10,13 +11,34 @@ namespace VideoGameCharactersAPI.Controllers
     public class VideoGameCharactersController(IVideoGameCharacterService service) : ControllerBase
     {
         [HttpGet]
-        public async Task<ActionResult<List<Character>>> GetCharacters()
+        public async Task<ActionResult<List<CharacterResponseDto>>> GetCharacters()
             => Ok(await service.GetAllCharactersAsync());
         [HttpGet("GetCharacterbyId/{id}")]
-        public async Task<ActionResult<Character>> GetCharacter(int id)
+        public async Task<ActionResult<CharacterResponseDto>> GetCharacter(int id)
         {
             var character = await service.GetCharacterByIdAsync(id);
             return character is null ? NotFound("Character with the given Id was not found.") : Ok(character);
         }
+
+        [HttpPost]
+        public async Task<ActionResult<CharacterResponseDto>> AddCharacter(CreateCharacterRequest character)
+        {
+            var createdCharacter = await service.AddCharacterAsync(character);
+            return CreatedAtAction(nameof(GetCharacter), new { id = createdCharacter.Id }, createdCharacter);
+        }
+
+        [HttpPut("{id}")]
+        public async Task<ActionResult> UpdateCharacter(int id, UpdateCharacterRequest character)
+        {
+            var updated = await service.UpdateCharacterAsync(id, character);
+            return updated ? NoContent() : NotFound("Character with the given Id was not found.");
+        }
+        [HttpDelete("{id}")]
+        public async Task<ActionResult> DeleteCharacter(int id)
+        {
+            var deleted = await service.DeleteCharacterAsync(id);
+            return deleted ? NoContent() : NotFound("Character with the given Id was not found.");
+        }
+
     }
 }
