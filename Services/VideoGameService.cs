@@ -25,7 +25,7 @@ namespace VideoGameCharactersAPI.Services
                 Game = newCharacter.Game,
                 Role = newCharacter.Role
             };
-        }
+        }   
 
         public async Task<bool> DeleteCharacterAsync(int id)
         {
