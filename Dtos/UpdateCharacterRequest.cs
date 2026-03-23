@@ -14,7 +14,7 @@ namespace VideoGameCharactersAPI.Dtos
 
         [Required(ErrorMessage = "Role is required.")]
         [RegularExpression(
-            "^(Protagonist|Hero|Antagonist|Villain)$",
+            "^(Protagonist|Hero|Heroine|Antagonist|Villain)$",
             ErrorMessage = "Role must be one of: protagonist, hero, antagonist, villain.")]
         public string Role { get; set; } = string.Empty;
     }
