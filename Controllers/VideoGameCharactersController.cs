@@ -13,7 +13,7 @@ namespace VideoGameCharactersAPI.Controllers
         [HttpGet]
         public async Task<ActionResult<List<CharacterResponseDto>>> GetCharacters()
             => Ok(await service.GetAllCharactersAsync());
-        [HttpGet("GetCharacterbyId/{id}")]
+        [HttpGet("{id}")]
         public async Task<ActionResult<CharacterResponseDto>> GetCharacter(int id)
         {
             var character = await service.GetCharacterByIdAsync(id);
