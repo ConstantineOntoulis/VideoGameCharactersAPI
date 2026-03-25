@@ -13,11 +13,21 @@ namespace VideoGameCharactersAPI.Controllers
         [HttpGet]
         public async Task<ActionResult<List<CharacterResponseDto>>> GetCharacters()
             => Ok(await service.GetAllCharactersAsync());
+
         [HttpGet("{id}")]
         public async Task<ActionResult<CharacterResponseDto>> GetCharacter(int id)
         {
             var character = await service.GetCharacterByIdAsync(id);
-            return character is null ? NotFound("Character with the given Id was not found.") : Ok(character);
+            if(character is null)
+            {
+                return Problem(
+                    statusCode: StatusCodes.Status404NotFound,
+                    title: "Character not found.",
+                    detail:$"No character with id {id} was found.",
+                    instance: HttpContext.Request.Path,
+                    type: "https://datatracker.ietf.org/doc/html/rfc9110#section-15.5.5");
+            }
+            return Ok(character);
         }
 
         [HttpPost]
@@ -31,7 +41,17 @@ namespace VideoGameCharactersAPI.Controllers
         public async Task<ActionResult> UpdateCharacter(int id, UpdateCharacterRequest character)
         {
             var updated = await service.UpdateCharacterAsync(id, character);
-            return updated ? NoContent() : NotFound("Character with the given Id was not found.");
+            if (!updated)
+            {
+                return Problem(
+                    statusCode: StatusCodes.Status404NotFound,
+                    title: "Character not found.",
+                    detail: $"No character with id {id} was found.",
+                    instance: HttpContext.Request.Path,
+                    type: "https://datatracker.ietf.org/doc/html/rfc9110#section-15.5.5");
+            }
+
+            return NoContent();
         }
         [HttpDelete("{id}")]
         public async Task<ActionResult> DeleteCharacter(int id)
