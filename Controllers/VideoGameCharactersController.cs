@@ -14,7 +14,7 @@ namespace VideoGameCharactersAPI.Controllers
         public async Task<ActionResult<List<CharacterResponseDto>>> GetCharacters()
             => Ok(await service.GetAllCharactersAsync());
 
-        [HttpGet("{id}")]
+        [HttpGet("{id:int}")]
         public async Task<ActionResult<CharacterResponseDto>> GetCharacter(int id)
         {
             var character = await service.GetCharacterByIdAsync(id);
@@ -37,7 +37,7 @@ namespace VideoGameCharactersAPI.Controllers
             return CreatedAtAction(nameof(GetCharacter), new { id = createdCharacter.Id }, createdCharacter);
         }
 
-        [HttpPut("{id}")]
+        [HttpPut("{id:int}")]
         public async Task<ActionResult> UpdateCharacter(int id, UpdateCharacterRequest character)
         {
             var updated = await service.UpdateCharacterAsync(id, character);
@@ -53,7 +53,7 @@ namespace VideoGameCharactersAPI.Controllers
 
             return NoContent();
         }
-        [HttpDelete("{id}")]
+        [HttpDelete("{id:int}")]
         public async Task<ActionResult> DeleteCharacter(int id)
         {
             var deleted = await service.DeleteCharacterAsync(id);
