@@ -3,13 +3,11 @@ using Microsoft.AspNetCore.Mvc;
 using VideoGameCharactersAPI.Models;
 using VideoGameCharactersAPI.Services;
 using VideoGameCharactersAPI.Dtos;
-using Microsoft.AspNetCore.Authorization;
 
 namespace VideoGameCharactersAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize]
     public class VideoGameCharactersController(IVideoGameCharacterService service) : ControllerBase
     {
         [HttpGet]
