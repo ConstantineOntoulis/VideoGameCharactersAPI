@@ -18,11 +18,12 @@ namespace VideoGameCharacterApi.Infrastructure
         {
             logger.LogError(
                 exception,
-                "Unhandled exception while processing {Method} {Path}.",
+                "Unhandled exception while processing {Method} {Path}. TraceId: {TraceId}",
                 //The HTTP method of the failing request
                 httpContext.Request.Method,
                 //The route/path of the failing request
-                httpContext.Request.Path);
+                httpContext.Request.Path,
+                httpContext.TraceIdentifier);
 
             //Create a ProblemDetails object. Standard structured format for HTTP API errors
             var problemDetails = new ProblemDetails
