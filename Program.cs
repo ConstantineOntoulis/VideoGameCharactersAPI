@@ -1,7 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using Scalar.AspNetCore;
 using VideoGameCharactersAPI.Data;
-using VideoGameCharactersAPI.Infrastructure;
+using VideoGameCharacterAPI.Infrastructure;
 using VideoGameCharactersAPI.Services;
 
 var builder = WebApplication.CreateBuilder(args);

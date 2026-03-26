@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 
 //Centralized handler for unexpected server-side exceptions
-namespace VideoGameCharacterApi.Infrastructure
+namespace VideoGameCharacterAPI.Infrastructure
 {
     // ": IExceptionHandler" means this class promises to follow the contract
     //"(ILogger<GlobalExceptionHandler> logger)" is a primary constructor.
