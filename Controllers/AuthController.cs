@@ -15,10 +15,10 @@ namespace VideoGameCharacterAPI.Controllers
     public class AuthController(IConfiguration configuration) : ControllerBase
     {
         [AllowAnonymous]
-        [HttpPost("loggin")]
+        [HttpPost("login")]
         public ActionResult<LoginResponse> Login(LoginRequest request)
         {
-            //Checks whether the provided credentials match the demo Reader account
+            //Checks whether the provided credentials match the demo User account
             if (request.Username == "user" && request.Password == "user123")
             {
                 return Ok(new LoginResponse
@@ -37,7 +37,7 @@ namespace VideoGameCharacterAPI.Controllers
                 });
             }
             //If neither credential pair matches, authentication fails
-            return Unauthorized(); //HTTP 401 Unauthorized
+            return Unauthorized(new { message = "Invalid username or password."}); //HTTP 401 Unauthorized
         }
         //Creates and signs a JWT for the given username and role
         private string GenerateToken(string username, string role)
