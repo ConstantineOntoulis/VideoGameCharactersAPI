@@ -1,8 +1,9 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using VideoGameCharactersAPI.Dtos;
 using VideoGameCharactersAPI.Models;
 using VideoGameCharactersAPI.Services;
-using VideoGameCharactersAPI.Dtos;
 
 namespace VideoGameCharactersAPI.Controllers
 {
@@ -10,11 +11,14 @@ namespace VideoGameCharactersAPI.Controllers
     [ApiController]
     public class VideoGameCharactersController(IVideoGameCharacterService service) : ControllerBase
     {
+        [Authorize(Policy = "UserOrAdmin")]
         [HttpGet]
         public async Task<ActionResult<List<CharacterResponseDto>>> GetCharacters()
         {
             return Ok(await service.GetAllCharactersAsync());
         }
+
+        [Authorize(Policy = "UserOrAdmin")]
         [HttpGet("{id:int}")]
         public async Task<ActionResult<CharacterResponseDto>> GetCharacter(int id)
         {
@@ -31,6 +35,7 @@ namespace VideoGameCharactersAPI.Controllers
             return Ok(character);
         }
 
+        [Authorize(Policy = "AdminOnly")]
         [HttpPost]
         public async Task<ActionResult<CharacterResponseDto>> AddCharacter(CreateCharacterRequest character)
         {
@@ -38,6 +43,7 @@ namespace VideoGameCharactersAPI.Controllers
             return CreatedAtAction(nameof(GetCharacter), new { id = createdCharacter.Id }, createdCharacter);
         }
 
+        [Authorize(Policy = "AdminOnly")]
         [HttpPut("{id:int}")]
         public async Task<ActionResult> UpdateCharacter(int id, UpdateCharacterRequest character)
         {
@@ -54,6 +60,8 @@ namespace VideoGameCharactersAPI.Controllers
 
             return NoContent();
         }
+
+        [Authorize(Policy = "AdminOnly")]
         [HttpDelete("{id:int}")]
         public async Task<ActionResult> DeleteCharacter(int id)
         {
