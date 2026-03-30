@@ -39,14 +39,54 @@ namespace VideoGameCharactersAPI.Services
             return true;
         }
 
-        public async Task<List<CharacterResponseDto>> GetAllCharactersAsync()
-            => await _context.Characters.Select(c => new CharacterResponseDto
+        public async Task<PagedResponseDto<CharacterResponseDto>> GetCharactersAsync(GetCharactersQuery query)
+        {
+            var charactersQuery = _context.Characters.AsNoTracking().AsQueryable();
+
+            if (!string.IsNullOrWhiteSpace(query.Game))
             {
-                Id = c.Id,
-                Name = c.Name,
-                Game = c.Game,
-                Role = c.Role
-            }).ToListAsync();
+                charactersQuery = charactersQuery.Where(c => c.Game == query.Game);
+            }
+
+            if (!string.IsNullOrWhiteSpace(query.Role))
+            {
+                charactersQuery = charactersQuery.Where(c => c.Role == query.Role);
+            }
+
+            charactersQuery = (query.SortBy?.ToLower(), query.SortDirection?.ToLower()) switch
+            {
+                ("name", "desc") => charactersQuery.OrderByDescending(c => c.Name),
+                ("name", _) => charactersQuery.OrderBy(c => c.Name),
+                ("game", "desc") => charactersQuery.OrderByDescending(c => c.Game),
+                ("game", _) => charactersQuery.OrderBy(c => c.Game),
+                _ => charactersQuery.OrderBy(c => c.Id)
+            };
+
+            var totalCount = await charactersQuery.CountAsync();
+
+            var page = query.Page < 1 ? 1 : query.Page;
+            var pageSize = query.PageSize < 1 ? 10 : Math.Min(query.PageSize, 50);
+
+            var items = await charactersQuery
+                .Skip((page - 1) * pageSize)
+                .Take(pageSize)
+                .Select(c => new CharacterResponseDto)
+                {
+                    Id = c.Id,
+                    Name = c.Name,
+                    Game = c.Game,
+                    Role = c.Role
+                }) 
+                .ToListAsync();
+
+            return new PagedResponseDto<CharacterResponseDto>
+            {
+                Page = page,
+                PageSize = pageSize,
+                TotalCount = totalCount,
+                Items = items
+            };
+        }
 
         public async Task<CharacterResponseDto?> GetCharacterByIdAsync(int id)
         {
