@@ -6,7 +6,7 @@ namespace VideoGameCharactersAPI.Services
     public interface IVideoGameCharacterService
     {
         //Add CRUD Methods within the interface
-        Task<List<CharacterResponseDto>> GetAllCharactersAsync();
+        Task<PagedResponseDto<CharacterResponseDto>> GetCharactersAsync(GetCharactersQuery query);
         Task<CharacterResponseDto?> GetCharacterByIdAsync(int id);
         Task<CharacterResponseDto> AddCharacterAsync(CreateCharacterRequest character);
         Task<bool> UpdateCharacterAsync(int id, UpdateCharacterRequest character);
