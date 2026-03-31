@@ -13,9 +13,9 @@ namespace VideoGameCharactersAPI.Controllers
     {
         [Authorize(Policy = "UserOrAdmin")]
         [HttpGet]
-        public async Task<ActionResult<List<CharacterResponseDto>>> GetCharacters()
+        public async Task<ActionResult<PagedResponseDto<CharacterResponseDto>>> GetCharacters([FromQuery] GetCharactersQuery query)
         {
-            return Ok(await service.GetAllCharactersAsync());
+            return Ok(await service.GetAllCharactersAsync(query));
         }
 
         [Authorize(Policy = "UserOrAdmin")]
