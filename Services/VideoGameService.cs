@@ -39,47 +39,60 @@ namespace VideoGameCharactersAPI.Services
             return true;
         }
 
-        public async Task<PagedResponseDto<CharacterResponseDto>> GetCharactersAsync(GetCharactersQuery query)
+        //Queries the Characters table and returns every stored character
+        public async Task<PagedResponseDto<CharacterResponseDto>> GetAllCharactersAsync(GetCharactersQuery query)
         {
-            var charactersQuery = _context.Characters.AsNoTracking().AsQueryable();
+            //Begin with Characters data source as the base query
+            var charactersQuery = context.Characters
+                  .AsNoTracking() //Query is read-only, entity tracking is unnecessary, avoids tracking overhead
+                  .AsQueryable(); //Convert source into a queryable pipeline
 
+            //Filtering()
+            //When client has supplied non-empty game vlaue, apply Game filter
             if (!string.IsNullOrWhiteSpace(query.Game))
-            {
+            { //Restrict results to characters whose Game value matches requested Game
                 charactersQuery = charactersQuery.Where(c => c.Game == query.Game);
             }
-
+            //When client has supplied non-empty role value, apply Role filter
             if (!string.IsNullOrWhiteSpace(query.Role))
-            {
+            {//Restrict results to characters whose Role value matches requested Role
                 charactersQuery = charactersQuery.Where(c => c.Role == query.Role);
             }
 
+            //Sorting()
+            //Apply sorting based on the requested sort field and direction. Convert values to lowercase for consistent comparisons
             charactersQuery = (query.SortBy?.ToLower(), query.SortDirection?.ToLower()) switch
             {
-                ("name", "desc") => charactersQuery.OrderByDescending(c => c.Name),
-                ("name", _) => charactersQuery.OrderBy(c => c.Name),
+                ("name", "desc") => charactersQuery.OrderByDescending(c => c.Name), //Sort by Name in desc order
+                ("name", ) => charactersQuery.OrderBy(c => c.Name), //Sort by Name in asc order when no valid descending direction is specified
                 ("game", "desc") => charactersQuery.OrderByDescending(c => c.Game),
-                ("game", _) => charactersQuery.OrderBy(c => c.Game),
-                _ => charactersQuery.OrderBy(c => c.Id)
+                ("game", ) => charactersQuery.OrderBy(c => c.Game),
+                ("role", "desc") => charactersQuery.OrderByDescending(c => c.Role),
+                ("role", ) => charactersQuery.OrderBy(c => c.Role),
+                _ => charactersQuery.OrderBy(c => c.Id) //If no supported sort option is provided, fall back to Id ordering
             };
 
-            var totalCount = await charactersQuery.CountAsync();
-
+            //Pagination()
+            //Normalize the requested page number. When client provides value smaller than 1, default to page 1
             var page = query.Page < 1 ? 1 : query.Page;
+            //When client provides an invalid size, default to 10. When requested size is too large, cap it at 50.
             var pageSize = query.PageSize < 1 ? 10 : Math.Min(query.PageSize, 50);
-
+            //Count the total number of rows that match the current filters before pagination is applied.
+            var totalCount = await charactersQuery.CountAsync();
+            //Retrieve only the rows that belong to the requested page
             var items = await charactersQuery
-                .Skip((page - 1) * pageSize)
-                .Take(pageSize)
-                .Select(c => new CharacterResponseDto)
+                .Skip((page - 1) * pageSize) //Skip all rows that belong to earlier pages, eg page 2, size 5 -> skip 5, page 3, size 5 -> skip 10
+                .Take(pageSize) //Take only the number of rows needed for the current page
+                .Select(c => new CharacterResponseDto //Project each entity into the response DTO shape
                 {
                     Id = c.Id,
                     Name = c.Name,
                     Game = c.Game,
                     Role = c.Role
-                }) 
-                .ToListAsync();
+                })
+               .ToListAsync(); //Execute the query and materialize the projected results as a list
 
-            return new PagedResponseDto<CharacterResponseDto>
+            return new PagedResponseDto<CharacterResponseDto> //Return the paged response object, the paging metadata and the actual items for the current page
             {
                 Page = page,
                 PageSize = pageSize,
@@ -87,7 +100,6 @@ namespace VideoGameCharactersAPI.Services
                 Items = items
             };
         }
-
         public async Task<CharacterResponseDto?> GetCharacterByIdAsync(int id)
         {
             var result = await _context.Characters
