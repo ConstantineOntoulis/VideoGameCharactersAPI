@@ -2,9 +2,9 @@
 using Microsoft.AspNetCore.Mvc;
 using VideoGameCharacterAPI.Dtos;
 using VideoGameCharactersAPI.Dtos;
-using VideoGameCharacterAPI.Services;
+using VideoGameCharactersAPI.Services;
 
-namespace VideoGameCharacterApi.Controllers;
+namespace VideoGameCharactersApi.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]

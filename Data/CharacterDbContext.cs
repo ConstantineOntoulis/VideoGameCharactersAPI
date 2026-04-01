@@ -1,5 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using VideoGameCharacterAPI.Models;
+using VideoGameCharactersAPI.Models;
 
 namespace VideoGameCharacterAPI.Data
 {

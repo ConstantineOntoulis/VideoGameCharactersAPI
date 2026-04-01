@@ -6,7 +6,7 @@ using System.Security.Claims;
 using System.Text;
 using VideoGameCharactersAPI.Dtos;
 
-namespace VideoGameCharacterApi.Controllers
+namespace VideoGameCharactersApi.Controllers
 {
     //Defines base route for controller: /api/auth
     [Route("api/[controller]")]

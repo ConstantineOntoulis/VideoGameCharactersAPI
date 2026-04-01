@@ -1,7 +1,7 @@
 ﻿using VideoGameCharacterAPI.Dtos;
 using VideoGameCharactersAPI.Dtos;
 
-namespace VideoGameCharacterAPI.Services
+namespace VideoGameCharactersAPI.Services
 {
     public interface IVideoGameCharacterService
     {
