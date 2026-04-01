@@ -2,10 +2,10 @@ using Microsoft.EntityFrameworkCore;
 using Scalar.AspNetCore;
 using VideoGameCharacterAPI.Data;
 using VideoGameCharacterAPI.Infrastructure;
-using VideoGameCharactersAPI.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using VideoGameCharacterAPI.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
