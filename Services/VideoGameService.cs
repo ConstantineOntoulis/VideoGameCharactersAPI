@@ -1,6 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using VideoGameCharacterAPI.Data;
-using VideoGameCharacterAPI.Dtos;
 using VideoGameCharactersAPI.Dtos;
 using VideoGameCharactersAPI.Models;
 using VideoGameCharactersAPI.Services;
@@ -64,17 +63,12 @@ namespace VideoGameCharactersApi.Services
                 id);
             return true;
         }
-
-        //Queries the Characters table and returns the requested paged result set
         public async Task<PagedResponseDto<CharacterResponseDto>> GetAllCharactersAsync(GetCharactersQuery query)
         {
-            //Begin with Characters data source as the base query
             var charactersQuery = _context.Characters
                   .AsNoTracking() //Query is read-only, entity tracking is unnecessary, avoids tracking overhead
                   .AsQueryable(); //Convert source into a queryable pipeline
 
-            //Filtering()
-            //When client has supplied non-empty game vlaue, apply Game filter
             if (!string.IsNullOrWhiteSpace(query.Game))
             { //Restrict results to characters whose Game value matches requested Game
                 charactersQuery = charactersQuery.Where(c => c.Game == query.Game);

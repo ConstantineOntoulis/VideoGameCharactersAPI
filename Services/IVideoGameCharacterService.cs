@@ -1,5 +1,4 @@
-﻿using VideoGameCharacterAPI.Dtos;
-using VideoGameCharactersAPI.Dtos;
+﻿using VideoGameCharactersAPI.Dtos;
 
 namespace VideoGameCharactersAPI.Services
 {

@@ -1,4 +1,4 @@
-namespace VideoGameCharacterAPI.Dtos
+namespace VideoGameCharactersAPI.Dtos
 {
     public class PagedResponseDto<T>
     {

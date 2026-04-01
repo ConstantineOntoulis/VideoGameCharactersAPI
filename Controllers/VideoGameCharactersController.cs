@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using VideoGameCharacterAPI.Dtos;
 using VideoGameCharactersAPI.Dtos;
 using VideoGameCharactersAPI.Services;
 
