@@ -1,23 +1,38 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using VideoGameCharacterAPI.Data;
-using VideoGameCharactersAPI.Models;
+using VideoGameCharacterAPI.Dtos;
 using VideoGameCharactersAPI.Dtos;
+using VideoGameCharactersAPI.Models;
+using VideoGameCharactersAPI.Services;
 
-namespace VideoGameCharactersAPI.Services
+namespace VideoGameCharacterApi.Services
 {
-    public class VideoGameService(CharacterDbContext _context) : IVideoGameCharacterService
+    //Implementation Class for character-related operations
+    //Uses CharacterDbContext to read and later modify character data in SQL Server
+    public class VideoGameService(CharacterDbContext _context, ILogger<VideoGameService> logger) : IVideoGameCharacterService
     {
         public async Task<CharacterResponseDto> AddCharacterAsync(CreateCharacterRequest character)
         {
+            //Map the incoming request data to the database entity
             var newCharacter = new Character
             {
                 Name = character.Name,
                 Game = character.Game,
-                Role = character.Role
+                Role = character.Role,
             };
+
+            //Save the new character to the database
             _context.Characters.Add(newCharacter);
             await _context.SaveChangesAsync();
 
+            //Log the successful creation event
+            logger.LogInformation(
+                "Character {CharacterId} was created for the game {Game}with the role {Role}.",
+                newCharacter.Id,
+                newCharacter.Game,
+                newCharacter.Role
+                );
+            //Return the saved character as a response DTO
             return new CharacterResponseDto
             {
                 Id = newCharacter.Id,
@@ -25,25 +40,36 @@ namespace VideoGameCharactersAPI.Services
                 Game = newCharacter.Game,
                 Role = newCharacter.Role
             };
-        }   
+        }
 
         public async Task<bool> DeleteCharacterAsync(int id)
         {
-            var characterToDelete = await _context.Characters.FindAsync(id);
-            if (characterToDelete is null)
-                return false;
+            var charToDelete = await _context.Characters.FindAsync(id);
 
-            _context.Characters.Remove(characterToDelete);
+            //Log a warning when the delete target does not exist
+            if (charToDelete is null)
+            {
+                logger.LogWarning(
+                    "Delete requested for the character {CharacterId}, but no matching character was found.",
+                    id);
+                return false;
+            }
+
+            _context.Characters.Remove(charToDelete);
             await _context.SaveChangesAsync();
 
+            //Log the successful deletion event
+            logger.LogInformation(
+                "Character {CharacterId} was deleted successfully",
+                id);
             return true;
         }
 
-        //Queries the Characters table and returns every stored character
+        //Queries the Characters table and returns the requested paged result set
         public async Task<PagedResponseDto<CharacterResponseDto>> GetAllCharactersAsync(GetCharactersQuery query)
         {
             //Begin with Characters data source as the base query
-            var charactersQuery = context.Characters
+            var charactersQuery = _context.Characters
                   .AsNoTracking() //Query is read-only, entity tracking is unnecessary, avoids tracking overhead
                   .AsQueryable(); //Convert source into a queryable pipeline
 
@@ -64,11 +90,11 @@ namespace VideoGameCharactersAPI.Services
             charactersQuery = (query.SortBy?.ToLower(), query.SortDirection?.ToLower()) switch
             {
                 ("name", "desc") => charactersQuery.OrderByDescending(c => c.Name), //Sort by Name in desc order
-                ("name", ) => charactersQuery.OrderBy(c => c.Name), //Sort by Name in asc order when no valid descending direction is specified
+                ("name", _) => charactersQuery.OrderBy(c => c.Name), //Sort by Name in asc order when no valid descending direction is specified
                 ("game", "desc") => charactersQuery.OrderByDescending(c => c.Game),
-                ("game", ) => charactersQuery.OrderBy(c => c.Game),
+                ("game", _) => charactersQuery.OrderBy(c => c.Game),
                 ("role", "desc") => charactersQuery.OrderByDescending(c => c.Role),
-                ("role", ) => charactersQuery.OrderBy(c => c.Role),
+                ("role", _) => charactersQuery.OrderBy(c => c.Role),
                 _ => charactersQuery.OrderBy(c => c.Id) //If no supported sort option is provided, fall back to Id ordering
             };
 
@@ -91,7 +117,6 @@ namespace VideoGameCharactersAPI.Services
                     Role = c.Role
                 })
                .ToListAsync(); //Execute the query and materialize the projected results as a list
-
             return new PagedResponseDto<CharacterResponseDto> //Return the paged response object, the paging metadata and the actual items for the current page
             {
                 Page = page,
@@ -100,6 +125,8 @@ namespace VideoGameCharactersAPI.Services
                 Items = items
             };
         }
+
+        //Returns a single character by id, or null if it does not exist
         public async Task<CharacterResponseDto?> GetCharacterByIdAsync(int id)
         {
             var result = await _context.Characters
@@ -112,15 +139,20 @@ namespace VideoGameCharactersAPI.Services
                     Role = c.Role
                 })
                 .FirstOrDefaultAsync();
-
             return result;
         }
 
         public async Task<bool> UpdateCharacterAsync(int id, UpdateCharacterRequest character)
         {
             var existingCharacter = await _context.Characters.FindAsync(id);
+
             if (existingCharacter is null)
+            { //Log a warning when the update target does not exist
+                logger.LogWarning(
+                    "Update requested for character {CharacterId}, but no matching character was found.",
+                    id);
                 return false;
+            }
 
             existingCharacter.Name = character.Name;
             existingCharacter.Game = character.Game;
@@ -128,6 +160,10 @@ namespace VideoGameCharactersAPI.Services
 
             await _context.SaveChangesAsync();
 
+            //Log the successful update event
+            logger.LogInformation(
+                "Character {CharacterId} was updated successfully.",
+                id);
             return true;
         }
     }
