@@ -1,3 +1,4 @@
 <Solution>
-  <Project Path="VideoGameCharactersAPI.csproj" />
+  <Project Path="VideoGameCharactersAPI.Tests/VideoGameCharactersAPI.Tests.csproj" Id="c7debc4e-7daf-4714-9466-6818c9195d34" />
+  <Project Path="VideoGameCharactersAPI/VideoGameCharactersAPI.csproj" />
 </Solution>
