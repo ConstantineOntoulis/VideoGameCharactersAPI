@@ -12,7 +12,7 @@ public class SmokeTests : IClassFixture<CustomWebApplicationFactory>
     //xUnit will create the CustomWebApplicationFactory once for this test class and pass it into the constructor
     public SmokeTests(CustomWebApplicationFactory factory)
     {
-        _Client = factory.CreateClient(); //Create an HttpClient connected to the test host
+        _Client = factory.CreateClient(); //Create an HttpClient connected to the test host 
     }
     [Fact] //a test method that xUnit should run
     public async Task App_Boots_And_Responds()
