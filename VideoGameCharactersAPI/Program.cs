@@ -20,7 +20,7 @@ builder.Services.AddDbContext<CharacterDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 builder.Services.AddScoped<IVideoGameCharacterService, VideoGameService>();
-
+   
 builder.Services.AddProblemDetails();
 builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
 
