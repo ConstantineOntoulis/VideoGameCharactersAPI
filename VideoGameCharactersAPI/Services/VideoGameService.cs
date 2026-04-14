@@ -94,9 +94,9 @@ namespace VideoGameCharactersApi.Services
 
             //Pagination()
             //Normalize the requested page number. When client provides value smaller than 1, default to page 1
-            var page = query.Page < 1 ? 1 : query.Page;
+            var page = QueryRules.NormalizePage(query.Page);
             //When client provides an invalid size, default to 10. When requested size is too large, cap it at 50.
-            var pageSize = query.PageSize < 1 ? 10 : Math.Min(query.PageSize, 50);
+            var pageSize = QueryRules.NormalizePageSize(query.PageSize);
             //Count the total number of rows that match the current filters before pagination is applied.
             var totalCount = await charactersQuery.CountAsync();
             //Retrieve only the rows that belong to the requested page
