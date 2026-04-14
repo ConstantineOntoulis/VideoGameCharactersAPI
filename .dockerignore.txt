@@ -2,4 +2,6 @@
 **/obj
 **/.vs
 **/.git
-**/.github
+**/.GitHub
+**/*.user
+**/*.suo
