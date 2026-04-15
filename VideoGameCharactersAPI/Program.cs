@@ -57,6 +57,14 @@ builder.Services.AddAuthorization(options =>
 
 var app = builder.Build();
 
+//Applies missing migrations to the database,when the app starts(so that scema can exist in new environment)
+using (var scope = app.Services.CreateScope())
+{
+    var dbContext = scope.ServiceProvider.GetRequiredService<CharacterDbContext>();
+    dbContext.Database.Migrate();
+}
+
+
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
