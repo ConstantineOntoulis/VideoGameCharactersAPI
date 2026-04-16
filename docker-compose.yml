@@ -1,0 +1,36 @@
+﻿services:
+  db:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    container_name: videogamecharacterapi-db
+    environment:
+      ACCEPT_EULA: "Y"
+      SA_PASSWORD: "YourStrong!Passw0rd"
+    ports:
+      - "14333:1433"
+    volumes:
+      - sql_data:/var/opt/mssql
+    healthcheck:
+          test: ["CMD-SHELL", "/opt/mssql-tools18/bin/sqlcmd -S localhost -U sa -P 'YourStrong!Passw0rd' -C -Q 'SELECT 1' || exit 1"]
+          interval: 10s
+          timeout: 5s
+          retries: 10
+          start_period: 20s
+
+  api:
+    build:
+      context: .
+      dockerfile: VideoGameCharactersAPI/Dockerfile
+    container_name: videogamecharacterapi-api
+    depends_on:
+      - db
+    environment:
+      ASPNETCORE_ENVIRONMENT: "Development"
+      ConnectionStrings__DefaultConnection: "Server=localhost\\SQLExpress;Database=VideoCharactersDb;Trusted_Connection=True;TrustServerCertificate=True"
+      Jwt__Key: "THIS_IS_A_DEVELOPMENT_ONLY_SECRET_KEY_12345"
+      Jwt__Issuer: "VideoGameCharacterAPI"
+      Jwt__Audience: "VideoGameCharacterAPIUsers"
+    ports:
+      - "8080:8080"
+
+volumes:
+  sql_data:
