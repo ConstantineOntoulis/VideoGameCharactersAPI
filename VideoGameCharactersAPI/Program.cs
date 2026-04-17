@@ -64,19 +64,21 @@ using (var scope = app.Services.CreateScope())
     dbContext.Database.Migrate();
 }
 
-// Configure the HTTP request pipeline.
+//Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
     app.MapOpenApi();
     app.MapScalarApiReference();
 }
 
-// Enable HTTPS redirection only outside Development.
-// The Docker setup currently runs the API over HTTP on port 8080.
+//Enable HTTPS redirection only during local development
 if (!app.Environment.IsDevelopment())
 {
     app.UseHttpsRedirection();
 }
+
+//Redirect requests from the root URL to the Scalar API documentation UI
+app.MapGet("/", () => Results.Redirect("/scalar"));
 
 app.UseExceptionHandler();
 app.UseAuthentication();
@@ -84,4 +86,4 @@ app.UseAuthorization();
 app.MapControllers();
 app.Run();
 
-public partial class Program { }
+public partial class Program { } //fallback for when test project cannot access Program.cs
