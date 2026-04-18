@@ -34,7 +34,7 @@
   api:
     build:
       context: .
-      dockerfile: VideoGameCharacterApi/Dockerfile
+      dockerfile: VideoGameCharactersAPI/Dockerfile
     container_name: videogamecharacterapi-api
     env_file:
       - .env
