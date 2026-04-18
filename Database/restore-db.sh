@@ -26,8 +26,8 @@ BEGIN
     RESTORE DATABASE [VideoGameCharactersDb]
     FROM DISK = N'/var/opt/mssql/backup/VideoGameCharactersDb.bak'
     WITH
-        MOVE N'VideoGameCharactersDb' TO N'/var/opt/mssql/data/VideoGameCharactersDb.mdf',
-        MOVE N'VideoGameCharactersDb_log' TO N'/var/opt/mssql/data/VideoGameCharactersDb_log.ldf',
+        MOVE N'VideoCharactersDb' TO N'/var/opt/mssql/data/VideoGameCharactersDb.mdf',
+        MOVE N'VideoCharactersDb_log' TO N'/var/opt/mssql/data/VideoGameCharactersDb_log.ldf',
         RECOVERY,
         REPLACE;
 END
