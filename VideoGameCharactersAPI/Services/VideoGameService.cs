@@ -4,7 +4,7 @@ using VideoGameCharactersAPI.Dtos;
 using VideoGameCharactersAPI.Models;
 using VideoGameCharactersAPI.Services;
 
-namespace VideoGameCharactersApi.Services
+namespace VideoGameCharactersAPI.Services
 {
     //Implementation Class for character-related operations
     //Uses CharacterDbContext to read and later modify character data in SQL Server
