@@ -5,7 +5,7 @@ using VideoGameCharactersAPI.Dtos;
 using VideoGameCharactersAPI.Tests;
 using Xunit;
 
-namespace VideoGameCharacterApi.Tests;
+namespace VideoGameCharactersAPI.Tests;
 
 //Integration tests for authorization failures caused by insufficient role permissions
 public class ForbiddenTests : IClassFixture<CustomWebApplicationFactory>

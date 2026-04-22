@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Scalar.AspNetCore;
 using System.Text;
-using VideoGameCharacterAPI.Data;
+using VideoGameCharactersAPI.Data;
 using VideoGameCharactersAPI.Infrastructure;
 using VideoGameCharactersAPI.Services;
 

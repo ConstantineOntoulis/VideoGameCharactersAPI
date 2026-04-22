@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using VideoGameCharactersAPI.Models;
 
-namespace VideoGameCharacterAPI.Data
+namespace VideoGameCharactersAPI.Data
 {
     //Database context used by EF Core to query and persist application data.
     public class CharacterDbContext(DbContextOptions<CharacterDbContext> options) : DbContext(options)

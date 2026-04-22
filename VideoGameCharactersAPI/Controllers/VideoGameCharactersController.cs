@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using VideoGameCharactersAPI.Dtos;
 using VideoGameCharactersAPI.Services;
 
-namespace VideoGameCharactersApi.Controllers;
+namespace VideoGameCharactersAPI.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]

@@ -5,7 +5,7 @@ using VideoGameCharactersAPI.Dtos;
 using VideoGameCharactersAPI.Tests;
 using Xunit;
 
-namespace VideoGameCharacterApi.Tests;
+namespace VideoGameCharactersAPI.Tests;
 
 //Integration tests for successful access to protected endpoints
 public class SuccessEndpointTests : IClassFixture<CustomWebApplicationFactory>
