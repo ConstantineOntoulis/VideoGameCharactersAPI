@@ -124,4 +124,3 @@ The current suite demonstrates that the project has moved beyond manual-only ver
 |---|---|
 | `03-api-reference.md` | routes exercised by the tests |
 | `04-authentication-and-authorization.md` | auth and role behavior behind the tests |
-| `10-known-limitations-and-next-steps.md` | current testing limitations |
