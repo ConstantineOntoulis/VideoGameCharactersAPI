@@ -149,4 +149,3 @@ Authentication and authorization failures are handled by ASP.NET Core middleware
 |---|---|
 | `03-api-reference.md` | endpoint-specific response behavior |
 | `04-authentication-and-authorization.md` | `401` and `403` behavior |
-| `10-known-limitations-and-next-steps.md` | current validation limitations |
