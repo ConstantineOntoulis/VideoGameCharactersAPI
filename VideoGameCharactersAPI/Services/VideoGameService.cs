@@ -1,5 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using VideoGameCharacterAPI.Data;
+using VideoGameCharactersAPI.Data;
 using VideoGameCharactersAPI.Dtos;
 using VideoGameCharactersAPI.Models;
 using VideoGameCharactersAPI.Services;
