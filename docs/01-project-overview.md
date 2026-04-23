@@ -107,4 +107,3 @@ For other topics, use the companion documents:
 | `07-database-and-entity-framework.md` | persistence layer |
 | `08-testing.md` | current test coverage |
 | `09-docker-and-local-setup.md` | runtime and container setup |
-| `10-known-limitations-and-next-steps.md` | current boundaries and improvement paths |
