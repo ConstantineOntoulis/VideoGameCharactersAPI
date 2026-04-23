@@ -185,4 +185,3 @@ The auth layer is intentionally limited.
 |---|---|
 | `03-api-reference.md` | route-by-route auth requirements |
 | `05-validation-and-error-handling.md` | 401, 403, and error behavior |
-| `10-known-limitations-and-next-steps.md` | current simplifications and future improvements |
