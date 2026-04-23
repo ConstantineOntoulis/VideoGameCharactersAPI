@@ -118,18 +118,6 @@ The current suite demonstrates that the project has moved beyond manual-only ver
 - success paths
 - basic query normalization logic
 
-## Current test boundaries
-
-The test suite currently does **not** claim to provide:
-
-- exhaustive endpoint coverage
-- performance testing
-- load testing
-- full custom test-host orchestration
-- detailed response-body verification for every scenario
-
-That is acceptable for the present scope of the project.
-
 ## Related documents
 
 | Document | Topic |
