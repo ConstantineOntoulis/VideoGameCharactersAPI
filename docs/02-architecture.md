@@ -189,19 +189,7 @@ controller returns `200 OK` with `PagedResponseDto<CharacterResponseDto>`
 |---|---|
 | Layered separation | present |
 | Service abstraction | present |
-| Repository pattern | not used |
 | Single-entity persistence model | present |
 | Query projection | present |
 | Global exception handling | present |
 | Demo authentication approach | present |
-| Complex domain model | intentionally absent |
-
-## Document boundary
-
-This file explains **how the project is structured**.
-
-It does not repeat:
-
-- endpoint details from `03-api-reference.md`
-- auth usage guidance from `04-authentication-and-authorization.md`
-- validation/status-code specifics from `05-validation-and-error-handling.md`
