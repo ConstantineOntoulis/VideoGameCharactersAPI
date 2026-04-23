@@ -179,4 +179,3 @@ There are two different Scalar access patterns depending on run mode:
 |---|---|
 | `03-api-reference.md` | endpoint surface |
 | `07-database-and-entity-framework.md` | connection and migration behavior |
-| `10-known-limitations-and-next-steps.md` | setup-related caveats |
