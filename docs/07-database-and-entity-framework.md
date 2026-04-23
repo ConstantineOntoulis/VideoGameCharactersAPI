@@ -144,4 +144,3 @@ At present, the DTOs apply maximum lengths for `Name` and `Game`, but the existi
 |---|---|
 | `02-architecture.md` | where `CharacterDbContext` sits in the overall structure |
 | `06-querying-pagination-and-sorting.md` | how EF queries are shaped in the service |
-| `10-known-limitations-and-next-steps.md` | current persistence-layer limitations |
