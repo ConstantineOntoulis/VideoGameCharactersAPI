@@ -323,4 +323,3 @@ The detailed technical documentation is intended to be separated into focused co
 | `docs/07-database-and-entity-framework.md`    | entity model, `DbContext`, migrations, and indexing |
 | `docs/08-testing.md`                          | test coverage and execution                         |
 | `docs/09-docker-and-local-setup.md`           | environment setup and container workflow            |
-| `docs/10-known-limitations-and-next-steps.md` | current limitations and future improvement paths    |
