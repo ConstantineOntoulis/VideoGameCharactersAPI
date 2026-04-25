@@ -1,6 +1,20 @@
 @VideoGameCharactersAPI_HostAddress = http://localhost:5021
 
-GET {{VideoGameCharactersAPI_HostAddress}}/weatherforecast/
+GET {{VideoGameCharactersAPI_HostAddress}}/health
 Accept: application/json
 
 ###
+
+POST {{VideoGameCharactersAPI_HostAddress}}/api/Auth/login
+Content-Type: application/json
+
+{
+  "username": "admin",
+  "password": "admin123"
+}
+
+###
+
+GET {{VideoGameCharactersAPI_HostAddress}}/api/VideoGameCharacters
+Accept: application/json
+Authorization: Bearer {{token}}
