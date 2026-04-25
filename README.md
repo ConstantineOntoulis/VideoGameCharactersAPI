@@ -12,6 +12,7 @@
 ![Docker](https://img.shields.io/badge/Docker-Containerized-B68A3A?style=for-the-badge)
 ![xUnit](https://img.shields.io/badge/xUnit-Tests-6E3942?style=for-the-badge)
 ![Scalar](https://img.shields.io/badge/Scalar-API%20UI-1E1A18?style=for-the-badge)
+![CI](https://img.shields.io/github/actions/workflow/status/ConstantineOntoulis/VideoGameCharactersAPI/CI.yml?branch=master&style=for-the-badge&label=CI)
 
 </div>
 
@@ -62,6 +63,7 @@ Its purpose is not to simulate a large production platform, but to demonstrate d
 | Health monitoring | `/health` endpoint                                                                                  |
 | API exploration   | OpenAPI + Scalar UI in development                                                                  |
 | Testing           | xUnit-based tests for authentication, authorization, validation, query rules, and endpoint behavior |
+| CI validation     | GitHub Actions workflow for restore, build, and test execution                                      |
 
 ---
 
@@ -272,6 +274,13 @@ The solution includes automated tests covering several important behaviors.
 ```bash
 dotnet test
 ```
+```md
+### Continuous integration
+
+The repository includes a GitHub Actions workflow at:
+
+```text
+.github/workflows/CI.yml
 
 ---
 
