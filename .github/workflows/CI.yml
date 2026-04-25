@@ -16,10 +16,11 @@ jobs:
 
     services:
       sqlserver:
-        image: mcr.microsoft.com/mssql/server:2025-latest
+        image: mcr.microsoft.com/mssql/server:2022-latest
         env:
           ACCEPT_EULA: "Y"
           MSSQL_SA_PASSWORD: "Your_Strong_Password_123!"
+          MSSQL_PID: "Developer"
         ports:
           - 1433:1433
         options: >-
@@ -27,9 +28,11 @@ jobs:
           --health-interval 10s
           --health-timeout 5s
           --health-retries 10
+          --health-start-period 20s
 
     env:
-      ConnectionStrings__DefaultConnection: "Server=localhost,1433;Database=VideoGameCharactersTestDb;User Id=sa;Password=Your_Strong_Password_123!;TrustServerCertificate=True"
+      ASPNETCORE_ENVIRONMENT: Testing
+      ConnectionStrings__DefaultConnection: "Server=localhost,1433;Database=VideoGameCharactersCiDb_${{ github.run_id }};User Id=sa;Password=Your_Strong_Password_123!;TrustServerCertificate=True"
       Jwt__Key: "THIS_IS_A_DEVELOPMENT_ONLY_SECRET_KEY_12345"
       Jwt__Issuer: "VideoGameCharacterAPI"
       Jwt__Audience: "VideoGameCharacterAPIUsers"
